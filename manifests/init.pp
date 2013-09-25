@@ -35,7 +35,37 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class BonCode {
+class bonCode {
+    $installDir = "D:/software/"
+    $sourceDir  = '\\storage1\files\shared\tfields'
+    $port = 18009
+    $host = "localhost"
+    $version = "v1014"
 
+  file {"${installDir}/BonCodeAjp13_${version}.zip":
+      source  => "${sourceDir}\BonCode\AJP13_${version}.zip"
+  }
+  package {'BonCode AJP 1.3 Connector':
+      provider  =>  windows,
+      ensure    =>  installed,
+      source    =>  "D:\Software\Boncode\Connector_Setup.exe",
+      install_options => ['/VERYSILENT /SUPPRESSMSGBOXES /LOG /SP- /NOCANCEL /NORESTART',{}]
+  }
+  file {"${installDir}/BonCodeAjp13_${version}.zip":
+    source  => "puppet://puppet.nexus.commercehub.com/extra_files/BonCode/AJP13_${version}.zip",
+    notify  => Exec['ExpandAjpZip']
+  }
+
+  file {"BonCodeUnzip":
+    path    => "${installDir}/Unzip.ps1",
+    source  => "puppet://puppet.nexus.commercehub.com/extra_files/BonCode/Unzip.ps1"
+  }
+
+  exec {'ExpandAjpZip':
+    provider    => powershell,
+    command     => "${installDir}\Unzip.ps1 -InstallDir ${installDir} -Version ${version}",
+    refreshonly => true,
+    require     => File['BonCodeUnzip']
+  }
 
 }

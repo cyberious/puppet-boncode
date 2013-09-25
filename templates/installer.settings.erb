@@ -1,0 +1,16 @@
+[Setup]
+installType=sites
+acceptLicense=1
+enableRemote=0
+enableHeaderDataSupport=1
+
+[Handlers]
+installCF=0
+installJSP=1
+installWildCard=1
+
+[Tomcat]
+server=<%= @host %>
+ajpPort=<%= @port %>
+configureServerXml=0
+
