@@ -23,7 +23,7 @@
 #
 # === Examples
 #
-#  class { BonCode:
+#  class { boncode:
 #    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
 #  }
 #
@@ -35,37 +35,53 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class bonCode {
-    $installDir = "D:/software/"
-    $sourceDir  = '\\storage1\files\shared\tfields'
-    $port = 18009
-    $host = "localhost"
-    $version = "v1014"
+class boncode {
+       	$installDir = "D:/software/"
+        $sourceDir  = '\\storage1\files\shared\tfields'
+        $port = 18009
+        $host = "localhost"
+        $version = "v1014"
+	
+	file{"C:\inetpub\wwwroot\BIN\BonCodeAJP13.settings":
+                source  => 'puppet:///modules/boncode/BonCode-site.settings',
+		require => Package['BonCode AJP 1.3 Connector']
+        }
+        file{"C:\inetpub\wwwroot\web.config":
+                source  => 'puppet:///modules/boncode/web.config',
+		require => Package['BonCode AJP 1.3 Connector']
+        }
+        file{"C:\windows\BonCodeAJP13.settings":
+                source  => 'puppet:///modules/boncode/BonCodeRoot.settings',
+		require	=> Package['BonCode AJP 1.3 Connector']
+        }
 
-  file {"${installDir}/BonCodeAjp13_${version}.zip":
-      source  => "${sourceDir}\BonCode\AJP13_${version}.zip"
-  }
-  package {'BonCode AJP 1.3 Connector':
-      provider  =>  windows,
-      ensure    =>  installed,
-      source    =>  "D:\Software\Boncode\Connector_Setup.exe",
-      install_options => ['/VERYSILENT /SUPPRESSMSGBOXES /LOG /SP- /NOCANCEL /NORESTART',{}]
-  }
-  file {"${installDir}/BonCodeAjp13_${version}.zip":
-    source  => "puppet://puppet.nexus.commercehub.com/extra_files/BonCode/AJP13_${version}.zip",
-    notify  => Exec['ExpandAjpZip']
-  }
+        file {"${installDir}/BonCodeAjp13_${version}.zip":
+                source  => "puppet:///modules/boncode/AJP13_${version}.zip",
+                notify  => Exec['ExpandAjpZip']
+        }
 
-  file {"BonCodeUnzip":
-    path    => "${installDir}/Unzip.ps1",
-    source  => "puppet://puppet.nexus.commercehub.com/extra_files/BonCode/Unzip.ps1"
-  }
+        file {"BonCodeUnzip":
+                path    => "${installDir}/Unzip.ps1",
+                source  => "puppet:///modules/boncode/Unzip.ps1"
+        }
 
-  exec {'ExpandAjpZip':
-    provider    => powershell,
-    command     => "${installDir}\Unzip.ps1 -InstallDir ${installDir} -Version ${version}",
-    refreshonly => true,
-    require     => File['BonCodeUnzip']
-  }
+        exec {'ExpandAjpZip':
+                provider=> powershell,
+                command => "${installDir}\Unzip.ps1 -InstallDir ${installDir} -Version ${version}",
+                refreshonly     => true,
+                require => File['BonCodeUnzip']
+        }
+        file {'BonCodeInstallSettings':
+                path    => "D:/software/BonCode/${version}/installer.settings",
+		ensure	=> file,
+                content => template("boncode/installer.settings.erb")
+        }
+        package {'BonCode AJP 1.3 Connector':
+                provider  =>  windows,
+                ensure    =>  installed,
+                source    =>  "D:/Software/Boncode/${version}/Connector_Setup.exe",
+                install_options => ['/VERYSILENT','/SUPPRESSMSGBOXES','/LOG','/SP-','/NOCANCEL','/NORESTART']
+        }
+
 
 }

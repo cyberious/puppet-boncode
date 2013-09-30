@@ -1,0 +1,7 @@
+<Settings>
+<Server>localhost</Server>
+<Port>18009</Port>
+<EnableHeaderDataSupport>True</EnableHeaderDataSupport>
+<AllowEmptyHeaders>True</AllowEmptyHeaders>
+</Settings>
+
