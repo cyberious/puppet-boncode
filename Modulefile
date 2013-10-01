@@ -1,4 +1,4 @@
-name    'tfields-BonCode'
+name    'tfields-boncode'
 version '0.1.0'
 source 'UNKNOWN'
 author 'tfields'
