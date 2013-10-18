@@ -1,15 +1,15 @@
 <Settings>
-    <Server><%= @host %></Server>
-    <Port><%= @port %></Port>
-    <PacketSize><%= @packetSize %></PacketSize>
-    <EnableHTTPStatusCodes><%= @enableHTTPStatusCodes %></EnableHTTPStatusCodes>
-    <EnableHeaderDataSupport><%= @enableHeaderDataSupport %></EnableHeaderDataSupport>
-    <EnableRemoteAdmin><%= @enableRemoteAdmin %></EnableRemoteAdmin>
-    <AllowEmptyHeaders><%= @allowEmptyHeaders %></AllowEmptyHeaders>
-    <MaxConnections><%= @maxConnections %></MaxConnections>
-    <FlushThreshold><%= @flushThreshold %></FlushThreshold>
-    <WriteTimeOut><%= @writeTimeOut %></WriteTimeOut>
-    <LogLevel><%= @logLevel %></LogLevel>
-    <LogDir><%= @logDir %></LogDir>
+    <Server><%= scope['boncode::params::host'] %></Server>
+    <Port><%= scope['boncode::params::port'] %></Port>
+    <PacketSize><%= scope['boncode::params::packetSize']%></PacketSize>
+    <EnableHTTPStatusCodes><%= scope['boncode::params::enableHTTPStatusCodes'] %></EnableHTTPStatusCodes>
+    <EnableHeaderDataSupport><%= scope['boncode::params::enableHeaderDataSupport'] %></EnableHeaderDataSupport>
+    <EnableRemoteAdmin><%= scope['boncode::params::enableRemoteAdmin'] %></EnableRemoteAdmin>
+    <AllowEmptyHeaders><%= scope['boncode::params::allowEmptyHeaders'] %></AllowEmptyHeaders>
+    <MaxConnections><%= scope['boncode::params::maxConnections'] %></MaxConnections>
+    <FlushThreshold><%= scope['boncode::params::flushThreshold'] %></FlushThreshold>
+    <WriteTimeOut><%= scope['boncode::params::writeTimeOut'] %></WriteTimeOut>
+    <LogLevel><%= scope['boncode::params::logLevel'] %></LogLevel>
+    <LogDir><%= scope['boncode::params::logDir'] %></LogDir>
 </Settings>
 

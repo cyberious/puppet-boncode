@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 <system.web>
-	<customErrors mode="<%= @customErrors %>"/>
-	<httpRuntime executionTimeout="<%= @execTimeout %>"
+	<customErrors mode="<%= scope['boncode::params::customErrors'] %>"/>
+	<httpRuntime 
+		executionTimeout="<%= scope['boncode::params::execTimeout'] %>" />
 </system.web>
     <system.webServer>
     <httpErrors existingResponse="PassThrough" />
