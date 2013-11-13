@@ -6,6 +6,11 @@
 		executionTimeout="<%= scope['boncode::params::execTimeout'] %>" />
 </system.web>
     <system.webServer>
+     <security>
+        <requestFiltering>
+        	<requestLimits maxAllowedContentLength="104857600" />
+    	</requestFiltering>
+    </security>
     <httpErrors existingResponse="PassThrough" />
         <handlers>
             <remove name="BonCode-Tomcat-WC-Handler" />
